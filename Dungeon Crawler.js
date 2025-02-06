@@ -160,6 +160,7 @@ const partyPowerLevel = partyMembersRandomStats.reduce(
 
 const finalResult =
   partyPowerLevel < mapDungeons[randomBossIndex].Difficulty ? "lose" : "won";
+
 class Character {
   constructor(name, role) {
     this.role = role;
@@ -198,14 +199,7 @@ for (let Members = 0; Members < partyMembers.length; Members++) {
   newCharacter.reward = true;
 
   const partyAttributes = `I'am the ${newCharacter.role} my name is ${newCharacter.name}. 
-  after fighting the Boss ${setBoss} in the ${mapDungeons[randomBossIndex].dungeon} we ${finalResult}
-  my stats contribution to this fight was ${newCharacter.stats} and my reward is ${newCharacter.reward}. `;
+  After fighting the Boss ${setBoss} in the ${mapDungeons[randomBossIndex].dungeon} we ${finalResult}!
+  My stats contribution to this fight was ${newCharacter.stats} and my reward is ${newCharacter.reward}. `;
   console.log(partyAttributes);
 }
-
-// console.log(mapDungeons.length);
-// console.log(randomBossIndex);
-// console.log(partyMembersRandomStats);
-// console.log(partyPowerLevel);
-// console.log(setBoss);
-// console.log(finalMsg);
