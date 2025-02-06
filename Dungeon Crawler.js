@@ -161,6 +161,7 @@ const partyPowerLevel = partyMembersRandomStats.reduce(
 const finalResult =
   partyPowerLevel < mapDungeons[randomBossIndex].Difficulty ? "lose" : "won";
 
+let finalMsg = ''
 class Character {
   constructor(name, role) {
     this.role = role;
