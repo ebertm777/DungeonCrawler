@@ -1,5 +1,4 @@
 /*TODO
- ** User select Dungeon
  ** Enter user selected Dungeon
  ** Make a Random boss encounter based on selected dungeon
  ** Set Reward for boss killing
@@ -129,20 +128,41 @@ const Party = [
   { Role: "Monk", STR: 4, DEX: 2, INT: 4 },
 ];
 const Dungeons = [
-  { dungeon: "Cave", Boss: "Titan, Lord of Crags", Difficulty: 50 },
-  { dungeon: "Temple", Boss: "Iona, Shield of Emeria", Difficulty: 64 },
+  { dungeon: "Cave", Boss: "Titan, Lord of Crags", Difficulty: 48 },
+  { dungeon: "Temple", Boss: "Iona, Shield of Emeria", Difficulty: 60 },
   { dungeon: "Swamp", Boss: "Cúchulainn, the Impure", Difficulty: 52 },
-  { dungeon: "Island", Boss: "Leviathan, Lord of the Whorl", Difficulty: 62 },
-  { dungeon: "Forest", Boss: "Kogla, the Titan Ape", Difficulty: 54 },
-  { dungeon: "Mountain", Boss: "Merlgofreth, the Red Wyrm", Difficulty: 60 },
-  { dungeon: "Void", Boss: "Zodiark, Eternal Darkness", Difficulty: 66 },
-  { dungeon: "Void", Boss: "Emiel, the Blessed", Difficulty: 48 },
+  { dungeon: "Island", Boss: "Leviathan, Lord of the Whorl", Difficulty: 58 },
+  { dungeon: "Forest", Boss: "Kogla, the Titan Ape", Difficulty: 50 },
+  { dungeon: "Mountain", Boss: "Merlgofreth, the Red Wyrm", Difficulty: 56 },
+  { dungeon: "Void", Boss: "Zodiark, Eternal Darkness", Difficulty: 62 },
+  { dungeon: "Plains", Boss: "Emiel, the Blessed", Difficulty: 46 },
 ];
 
 const Reward = ["Gold", "Silver", "Bronze"];
 const partyMembers = Party.map((party) => party);
 const partyMembersStats = Party.map(({ Role, ...rest }) => rest);
 const membersNames = fantasyNames.map((names) => names);
+
+//escolhe o Boss aleatoriamente
+const mapDungeons = Dungeons.map((dungeons) => dungeons);
+const setBoss = Math.floor(Math.random() * mapDungeons.length);
+console.log(mapDungeons.length)
+console.log(setBoss)
+
+//Randomiza os stats
+const getRandomStatsSum = ({ Role, ...stats }) => {
+  const statKeys = Object.keys(stats);
+  const [stat1, stat2] = statKeys.sort(() => Math.random() - 0.5).slice(0, 2); // seleciona 2 stats aleatoriamente
+  return stats[stat1] + stats[stat2];
+};
+const partyMembersRandomStats = Party.map(getRandomStatsSum);
+
+//soma os stats da party
+const partyPowerLevel = partyMembersRandomStats.reduce(
+  (accumulator, currentValue) => accumulator + currentValue,
+  0
+);
+
 const Final = [];
 
 class Character {
@@ -172,20 +192,6 @@ class characterCreator extends Character {
   }
 }
 
-//Randomiza os stats
-const getRandomStatsSum = ({ Role, ...stats }) => {
-  const statKeys = Object.keys(stats);
-  const [stat1, stat2] = statKeys.sort(() => Math.random() - 0.5).slice(0, 2); // seleciona 2 stats aleatoriamente
-  return stats[stat1] + stats[stat2];
-};
-const partyMembersRandomStats = Party.map(getRandomStatsSum);
-
-//soma os stats da party
-const partyPowerLevel = partyMembersRandomStats.reduce(
-  (accumulator, currentValue) => accumulator + currentValue,
-  0
-);
-
 for (let Members = 0; Members < partyMembers.length; Members++) {
   const randomIndex = Math.floor(Math.random() * membersNames.length);
   const uniqueName = membersNames.splice(randomIndex, 1)[0]; //evita nomes duplicados
@@ -201,5 +207,6 @@ for (let Members = 0; Members < partyMembers.length; Members++) {
   // console.log(finalMsg);
 }
 
-console.log(partyMembersRandomStats);
-console.log(partyPowerLevel);
+// console.log(partyMembersRandomStats);
+// console.log(partyPowerLevel);
+
