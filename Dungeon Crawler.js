@@ -1,6 +1,4 @@
 /*TODO
- ** Enter user selected Dungeon
- ** Make a Random boss encounter based on selected dungeon
  ** Set Reward for boss killing
  ** Reward Message
  ** Final
@@ -128,7 +126,7 @@ const Party = [
   { Role: "Monk", STR: 4, DEX: 2, INT: 4 },
 ];
 const Dungeons = [
-  { dungeon: "Cave", Boss: "Titan, Lord of Crags", Difficulty: 48 },
+  { dungeon: "Cave", Boss: "Titan, Lord of Crags", Difficulty: 41 },
   { dungeon: "Temple", Boss: "Iona, Shield of Emeria", Difficulty: 60 },
   { dungeon: "Swamp", Boss: "Cúchulainn, the Impure", Difficulty: 52 },
   { dungeon: "Island", Boss: "Leviathan, Lord of the Whorl", Difficulty: 58 },
@@ -138,16 +136,15 @@ const Dungeons = [
   { dungeon: "Plains", Boss: "Emiel, the Blessed", Difficulty: 46 },
 ];
 
-const Reward = ["Gold", "Silver", "Bronze"];
+const Reward = ["Eternal Oblivion", "Eternal Glory"];
 const partyMembers = Party.map((party) => party);
 const partyMembersStats = Party.map(({ Role, ...rest }) => rest);
 const membersNames = fantasyNames.map((names) => names);
 
 //escolhe o Boss aleatoriamente
 const mapDungeons = Dungeons.map((dungeons) => dungeons);
-const setBoss = Math.floor(Math.random() * mapDungeons.length);
-console.log(mapDungeons.length)
-console.log(setBoss)
+const randomBossIndex = Math.floor(Math.random() * mapDungeons.length);
+const setBoss = mapDungeons[randomBossIndex].Boss;
 
 //Randomiza os stats
 const getRandomStatsSum = ({ Role, ...stats }) => {
@@ -164,12 +161,12 @@ const partyPowerLevel = partyMembersRandomStats.reduce(
 );
 
 const Final = [];
-
+let finalMsg = "";
 class Character {
   constructor(name, role) {
     this.role = role;
     this.name = name;
-    this._reward = Reward[2];
+    this._reward = Reward[0];
   }
 
   get reward() {
@@ -177,9 +174,9 @@ class Character {
   }
 
   set reward(rewardCheck) {
-    if (rewardCheck >= 10) {
+    if (mapDungeons[randomBossIndex].Difficulty > partyPowerLevel) {
       this._reward = Reward[0];
-    } else if (rewardCheck <= 9 && rewardCheck >= 3) {
+    } else {
       this._reward = Reward[1];
     }
   }
@@ -200,13 +197,18 @@ for (let Members = 0; Members < partyMembers.length; Members++) {
     partyMembers[Members].Role,
     partyMembersRandomStats[Members]
   );
-  newCharacter.reward = 9;
-  const finalMsg = `I'am the ${newCharacter.role} and my name is ${newCharacter.name}.
-  after fighting the monster in the dungeonm my reward is ${newCharacter.reward}.
-  my stats are ${newCharacter.stats}`;
-  // console.log(finalMsg);
+  newCharacter.reward = true;
+  const partyAttributes = `I'am the ${newCharacter.role} my name is ${newCharacter.name}. 
+  after fighting the Boss ${setBoss} in the ${mapDungeons[randomBossIndex].dungeon}
+  my stats contribution to this fight was ${newCharacter.stats} and my reward is ${newCharacter.reward}. `;
+  console.log(partyAttributes);
+
+  finalMsg = "aaa";
 }
 
+// console.log(mapDungeons.length);
+// console.log(randomBossIndex);
 // console.log(partyMembersRandomStats);
 // console.log(partyPowerLevel);
-
+// console.log(setBoss);
+// console.log(finalMsg);
