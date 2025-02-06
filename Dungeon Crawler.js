@@ -134,7 +134,7 @@ const Dungeons = [
   { dungeon: "Plains", Boss: "Emiel, the Blessed", Difficulty: 46 },
 ];
 
-const Reward = ["Eternal Oblivion", "Eternal Glory"];
+const Reward = ["Eternal Oblivion💀", "Eternal Glory👼"];
 const partyMembers = Party.map((party) => party);
 const partyMembersStats = Party.map(({ Role, ...rest }) => rest);
 const membersNames = fantasyNames.map((names) => names);
@@ -159,9 +159,9 @@ const partyPowerLevel = partyMembersRandomStats.reduce(
 );
 
 const finalResult =
-  partyPowerLevel < mapDungeons[randomBossIndex].Difficulty ? "lose" : "won";
+  partyPowerLevel < mapDungeons[randomBossIndex].Difficulty ? "lost" : "won";
 
-let finalMsg = ''
+let finalMsg = "";
 class Character {
   constructor(name, role) {
     this.role = role;
@@ -203,4 +203,12 @@ for (let Members = 0; Members < partyMembers.length; Members++) {
   After fighting the Boss ${setBoss} in the ${mapDungeons[randomBossIndex].dungeon} we ${finalResult}!
   My stats contribution to this fight was ${newCharacter.stats} and my reward is ${newCharacter.reward}. `;
   console.log(partyAttributes);
+
+  finalMsg = `The party fought a formidable foe, the one know as ${setBoss}, in the dungeon ${mapDungeons[randomBossIndex].dungeon},
+  eventualy they ${finalResult}, and we're sent to ${newCharacter.reward}!
+  The party total power was  ${partyPowerLevel} and the boss Difficulty was ${mapDungeons[randomBossIndex].Difficulty}.
+
+  -Live(or die) to fight another day.`;
 }
+
+console.log(finalMsg);
