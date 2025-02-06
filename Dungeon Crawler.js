@@ -1,7 +1,3 @@
-/*TODO
- ** Final
- */
-
 const fantasyNames = [
   "Cloud",
   "Sephiroth",
