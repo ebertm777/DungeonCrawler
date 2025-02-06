@@ -1,6 +1,4 @@
 /*TODO
- ** Set Reward for boss killing
- ** Reward Message
  ** Final
  */
 
@@ -160,8 +158,8 @@ const partyPowerLevel = partyMembersRandomStats.reduce(
   0
 );
 
-const Final = [];
-let finalMsg = "";
+const finalResult =
+  partyPowerLevel < mapDungeons[randomBossIndex].Difficulty ? "lose" : "won";
 class Character {
   constructor(name, role) {
     this.role = role;
@@ -198,12 +196,11 @@ for (let Members = 0; Members < partyMembers.length; Members++) {
     partyMembersRandomStats[Members]
   );
   newCharacter.reward = true;
+
   const partyAttributes = `I'am the ${newCharacter.role} my name is ${newCharacter.name}. 
-  after fighting the Boss ${setBoss} in the ${mapDungeons[randomBossIndex].dungeon}
+  after fighting the Boss ${setBoss} in the ${mapDungeons[randomBossIndex].dungeon} we ${finalResult}
   my stats contribution to this fight was ${newCharacter.stats} and my reward is ${newCharacter.reward}. `;
   console.log(partyAttributes);
-
-  finalMsg = "aaa";
 }
 
 // console.log(mapDungeons.length);
