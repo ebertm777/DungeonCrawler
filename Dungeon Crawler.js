@@ -120,14 +120,14 @@ const Party = [
   { Role: "Monk", STR: 4, DEX: 2, INT: 4 },
 ];
 const Dungeons = [
-  { dungeon: "Cave", Boss: "Titan, Lord of Crags", Difficulty: 41 },
+  { dungeon: "Cave", Boss: "Titan, Lord of Crags", Difficulty: 48 },
   { dungeon: "Temple", Boss: "Iona, Shield of Emeria", Difficulty: 60 },
   { dungeon: "Swamp", Boss: "Cúchulainn, the Impure", Difficulty: 52 },
   { dungeon: "Island", Boss: "Leviathan, Lord of the Whorl", Difficulty: 58 },
   { dungeon: "Forest", Boss: "Kogla, the Titan Ape", Difficulty: 50 },
   { dungeon: "Mountain", Boss: "Merlgofreth, the Red Wyrm", Difficulty: 56 },
   { dungeon: "Void", Boss: "Zodiark, Eternal Darkness", Difficulty: 62 },
-  { dungeon: "Plains", Boss: "Emiel, the Blessed", Difficulty: 46 },
+  { dungeon: "Plains", Boss: "Emiel, the Blessed", Difficulty: 42 },
 ];
 
 const Reward = ["Eternal Oblivion💀", "Eternal Glory👼"];
