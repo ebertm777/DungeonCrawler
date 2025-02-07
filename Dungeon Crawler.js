@@ -131,12 +131,12 @@ const Dungeons = [
 ];
 
 const Reward = ["Eternal Oblivion💀", "Eternal Glory👼"];
-const partyMembers = Party.map((party) => party);
+const partyMembers = Party;
 const partyMembersStats = Party.map(({ Role, ...rest }) => rest);
 const membersNames = fantasyNames.map((names) => names);
 
 //escolhe o Boss aleatoriamente
-const mapDungeons = Dungeons.map((dungeons) => dungeons);
+const mapDungeons = Dungeons;
 const randomBossIndex = Math.floor(Math.random() * mapDungeons.length);
 const setBoss = mapDungeons[randomBossIndex].Boss;
 
