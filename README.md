@@ -1,4 +1,4 @@
-RPG Party Simulator
+DungeonCrawler (RPG Party Simulator)
 Este projeto é um simulador de aventuras de RPG, onde uma party de heróis enfrenta um chefe aleatório em uma masmorra. O resultado da batalha é determinado pela soma dos atributos da party em comparação com a dificuldade do chefe.
 
 📜 Funcionalidades
