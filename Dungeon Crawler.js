@@ -146,65 +146,66 @@ const getRandomStatsSum = ({ Role, ...stats }) => {
   const [stat1, stat2] = statKeys.sort(() => Math.random() - 0.5).slice(0, 2); // seleciona 2 stats aleatoriamente
   return stats[stat1] + stats[stat2];
 };
-const partyMembersRandomStats = Party.map(getRandomStatsSum);
-
-//soma os stats da party
-const partyPowerLevel = partyMembersRandomStats.reduce(
-  (accumulator, currentValue) => accumulator + currentValue,
-  0
-);
-
-const finalResult =
-  partyPowerLevel < mapDungeons[randomBossIndex].Difficulty ? "lost" : "won";
-
-let finalMsg = "";
+;
 class Character {
   constructor(name, role) {
-    this.role = role;
     this.name = name;
+    this.role = role;
     this._reward = Reward[0];
+  }
+
+  assignReward(partyPower, bossDifficulty) {
+    this._reward = partyPower >= bossDifficulty ? Reward[1] : Reward[0];
   }
 
   get reward() {
     return this._reward;
   }
-
-  set reward(rewardCheck) {
-    if (mapDungeons[randomBossIndex].Difficulty > partyPowerLevel) {
-      this._reward = Reward[0];
-    } else {
-      this._reward = Reward[1];
-    }
-  }
 }
 
-class characterCreator extends Character {
+class CharacterCreator extends Character {
   constructor(name, role, stats) {
     super(name, role);
     this.stats = stats;
   }
 }
 
-for (let Members = 0; Members < partyMembers.length; Members++) {
-  const randomIndex = Math.floor(Math.random() * membersNames.length);
-  const uniqueName = membersNames.splice(randomIndex, 1)[0]; //evita nomes duplicados
-  const newCharacter = new characterCreator(
-    uniqueName,
-    partyMembers[Members].Role,
-    partyMembersRandomStats[Members]
-  );
-  newCharacter.reward = true;
-
-  const partyAttributes = `I'am the ${newCharacter.role} my name is ${newCharacter.name}. 
-  After fighting the Boss ${setBoss} in the ${mapDungeons[randomBossIndex].dungeon} we ${finalResult}!
-  My stats contribution to this fight was ${newCharacter.stats} and my reward is ${newCharacter.reward}. `;
-  console.log(partyAttributes);
-
-  finalMsg = `The party fought a formidable foe, the one know as ${setBoss}, in the dungeon ${mapDungeons[randomBossIndex].dungeon},
-  eventualy they ${finalResult}, and we're sent to ${newCharacter.reward}!
-  The party total power was  ${partyPowerLevel} and the boss Difficulty was ${mapDungeons[randomBossIndex].Difficulty}.
-
-  -Live(or die) to fight another day.`;
+function getRandomDungeonBoss() {
+  const randomIndex = Math.floor(Math.random() * Dungeons.length);
+  return Dungeons[randomIndex];
 }
 
-console.log(finalMsg);
+// Início do app
+const dungeon = getRandomDungeonBoss();
+const boss = dungeon.Boss;
+const dungeonName = dungeon.dungeon;
+const bossDifficulty = dungeon.Difficulty;
+
+const partyMembersRandomStats = Party.map(getRandomStatsSum);
+const partyPowerLevel = partyMembersRandomStats.reduce((a, b) => a + b, 0);
+const finalResult = partyPowerLevel >= bossDifficulty ? "won" : "lost";
+
+for (let i = 0; i < Party.length; i++) {
+  const randomIndex = Math.floor(Math.random() * membersNames.length);
+  const name = membersNames.splice(randomIndex, 1)[0];
+  const character = new CharacterCreator(
+    name,
+    Party[i].Role,
+    partyMembersRandomStats[i]
+  );
+
+  character.assignReward(partyPowerLevel, bossDifficulty);
+
+  console.log(`I am the ${character.role} my name is ${character.name}.
+  After fighting the Boss ${boss} in the ${dungeonName} we ${finalResult}!
+  My stats contribution to this fight was ${character.stats} and my reward is ${character.reward}.`);
+}
+
+console.log(`
+The party fought a formidable foe, ${boss}, in the dungeon ${dungeonName}.
+Eventually, they ${finalResult}, and were sent to ${
+  Reward[finalResult === "won" ? 1 : 0]
+}!
+The party total power was ${partyPowerLevel} and the boss Difficulty was ${bossDifficulty}.
+- Live (or die) to fight another day.
+`);
