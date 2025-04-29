@@ -141,12 +141,12 @@ const randomBossIndex = Math.floor(Math.random() * mapDungeons.length);
 const setBoss = mapDungeons[randomBossIndex].Boss;
 
 //Randomiza os stats
-const getRandomStatsSum = ({ Role, ...stats }) => {
+function getRandomStatsSum({ Role, ...stats }, combineStats) {
   const statKeys = Object.keys(stats);
-  const [stat1, stat2] = statKeys.sort(() => Math.random() - 0.5).slice(0, 2); // seleciona 2 stats aleatoriamente
-  return stats[stat1] + stats[stat2];
-};
-;
+  const [stat1, stat2] = statKeys.sort(() => Math.random() - 0.5).slice(0, 2);
+  return combineStats(stats[stat1], stats[stat2]);
+}
+
 class Character {
   constructor(name, role) {
     this.name = name;
@@ -170,42 +170,68 @@ class CharacterCreator extends Character {
   }
 }
 
-function getRandomDungeonBoss() {
-  const randomIndex = Math.floor(Math.random() * Dungeons.length);
-  return Dungeons[randomIndex];
+function getRandomElement(
+  arr,
+  chooser = () => Math.floor(Math.random() * arr.length)
+) {
+  return arr[chooser()];
 }
+const dungeon = getRandomElement(Dungeons);
 
-
-const dungeon = getRandomDungeonBoss();
 const boss = dungeon.Boss;
 const dungeonName = dungeon.dungeon;
 const bossDifficulty = dungeon.Difficulty;
 
-const partyMembersRandomStats = Party.map(getRandomStatsSum);
+const partyMembersRandomStats = Party.map(
+  (p) => getRandomStatsSum(p, (a, b) => a + b) //callback para status randomicos
+);
+
 const partyPowerLevel = partyMembersRandomStats.reduce((a, b) => a + b, 0);
-const finalResult = partyPowerLevel >= bossDifficulty ? "won" : "lost";
 
-for (let i = 0; i < Party.length; i++) {
-  const randomIndex = Math.floor(Math.random() * membersNames.length);
-  const name = membersNames.splice(randomIndex, 1)[0];
-  const character = new CharacterCreator(
-    name,
-    Party[i].Role,
-    partyMembersRandomStats[i]
-  );
-
-  character.assignReward(partyPowerLevel, bossDifficulty);
-
-  console.log(`I am the ${character.role} my name is ${character.name}.
-  After fighting the Boss ${boss} in the ${dungeonName} we ${finalResult}!
-  My stats contribution to this fight was ${character.stats} and my reward is ${character.reward}.`);
+function determineOutcome(partyPower, bossDifficulty, callback) {
+  return callback(partyPower, bossDifficulty);
 }
 
+const finalResult = determineOutcome(
+  partyPowerLevel,
+  bossDifficulty,
+  (power, difficulty) => (power >= difficulty ? "won" : "lost")
+);
+
+function createCharacter(
+  index,
+  nameList,
+  partyList,
+  statsList,
+  rewardCallback
+) {
+  const nameIndex = Math.floor(Math.random() * nameList.length);
+  const name = nameList.splice(nameIndex, 1)[0];
+  const role = partyList[index].Role;
+  const stats = statsList[index];
+
+  const character = new CharacterCreator(name, role, stats);
+  rewardCallback(character);
+  return character;
+}
+
+const characters = Party.map((_, i) =>
+  createCharacter(i, fantasyNames, Party, partyMembersRandomStats, (char) => {
+    char.assignReward(partyPowerLevel, bossDifficulty);
+  })
+);
+
+characters.forEach((char) => {
+  console.log(`I am the ${char.role} my name is ${char.name}.
+  After fighting the Boss ${boss} in the ${dungeon.dungeon} we ${finalResult}!
+  My stats contribution to this fight was ${char.stats} and my reward is ${char.reward}.`);
+});
+
 console.log(`
-The party fought a formidable foe, ${boss}, in the dungeon ${dungeonName}.
-Eventually, they ${finalResult}, and were sent to ${
+    The party fought a formidable foe, ${boss}, in the dungeon ${dungeonName}.
+    Eventually, they ${finalResult}, and were sent to ${
   Reward[finalResult === "won" ? 1 : 0]
 }!
-The party total power was ${partyPowerLevel} and the boss Difficulty was ${bossDifficulty}.
-- Live (or die) to fight another day.
-`);
+    The party total power was ${partyPowerLevel} and the boss Difficulty was ${bossDifficulty}.
+    - Live (or die) to fight another day.
+    `);
