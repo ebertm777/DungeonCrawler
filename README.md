@@ -1,4 +1,5 @@
-DungeonCrawler (RPG Party Simulator)
+
+DungeonCrawler (RPG Party Simulator) (Em construção)
 Este projeto é um simulador de aventuras de RPG, onde uma party de heróis enfrenta um chefe aleatório em uma masmorra. O resultado da batalha é determinado pela soma dos atributos da party em comparação com a dificuldade do chefe.
 
 📜 Funcionalidades
@@ -17,6 +18,7 @@ O resultado da batalha e a recompensa final são exibidos no console.
 🛠 Tecnologias Utilizadas
 JavaScript (ES6+)
 
-'Herein I commit the chronicle of the traveler. Shepherd to the stars in the dark.
- Though the world be sundered and our souls set adrift, where you walk, my dearest friend, fate shall surely follow. 
- For yours is the Fourteenth seat—the seat of Azem.'
+
+
+#####Changelog
+29/04/2025: Criadas duas novas Branches respectivamente aplicando callbacks e async/await. 
