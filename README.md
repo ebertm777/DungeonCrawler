@@ -19,5 +19,5 @@ O resultado da batalha e a recompensa final são exibidos no console.
 JavaScript (ES6+)
 
 
-<p style="font-size:44px, font-weight:700;">Changelog:</p>
+<p style="font-size:84px; font-weight:bold;">Changelog:</p>
 29/04/2025: Criadas duas novas Branches respectivamente aplicando callbacks e async/await. 
